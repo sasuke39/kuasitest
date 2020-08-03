@@ -1,4 +1,4 @@
-package com.example.kuasi.demo;
+package com.example.kuasi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

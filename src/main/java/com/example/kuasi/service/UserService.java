@@ -2,10 +2,12 @@ package com.example.kuasi.service;
 
 import com.example.kuasi.dao.UserDao;
 import com.example.kuasi.domain.User;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class UserService {
 
     @Resource

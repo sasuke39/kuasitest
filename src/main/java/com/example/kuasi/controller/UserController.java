@@ -9,24 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
-@RestController
+
+
+
 public class UserController {
     @Autowired
     UserService userService;
 
 
     @AccessLimit(minute = 30,maxCount = 5)
-    @RequestMapping("newUser")
-//    @ResponseBody
+    @RequestMapping(value = "newUser",method = RequestMethod.POST)
+    @ResponseBody
     public Result<String> newUser(User user, HttpServletRequest request){
         Result<String> result = new Result<>();
         //无重复 不空
@@ -67,7 +71,7 @@ public class UserController {
 
 
     @RequestMapping("updateUser")
-//    @ResponseBody
+    @ResponseBody
     public Result<String> updateUser(User user){
         Result<String> result = new Result<>();
         user.setUpdateTime(new Date());
@@ -82,7 +86,7 @@ public class UserController {
     }
 
     @RequestMapping("findAllUser")
-//    @ResponseBody
+    @ResponseBody
     public Result<List> getAllUser(){
         Result<List> result = new Result<>();
         result.setCode(500);
@@ -99,13 +103,14 @@ public class UserController {
     }
 
     @RequestMapping("findOneById")
-//    @ResponseBody
-    public Result<String> getOne(int id){
-        Result<String> result = new Result<>();
+    @ResponseBody
+    public Result<User> getOne(int id){
+        Result<User> result = new Result<>();
         User oneById = userService.findOneById(id);
         if (oneById !=null){
             result.setCode(200);
             result.setMessage("获取成功!");
+            result.setT(oneById);
         }else {
             result.setCode(500);
             result.setMessage("获取失败!");
@@ -114,6 +119,7 @@ public class UserController {
     }
 
     @RequestMapping("setDeleteState")
+    @ResponseBody
     public Result setState(User user){
         Result result = new Result();
         user.setUpdateTime(new Date());
@@ -126,5 +132,6 @@ public class UserController {
         }
         return result;
     }
+
 
 }
